@@ -1,0 +1,44 @@
+Here is a simple single page website that shows off the GraphQL result of your query:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GraphQL Query Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #result {
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>GraphQL Query Result</h1>
+    <div id="result"></div>
+
+    <script>
+        fetch('https://emerapi.info/graphql', {  
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                query: 'query { callwalletfunction (method: "getblockchaininfo") { answer } }',
+            }),
+        })
+        .then(res => res.json())
+        .then(res => {
+            document.getElementById('result').textContent = JSON.stringify(res.data, null, 2);
+            if(res.errors) {
+                document.getElementById('result').textContent += '\n\nErrors:\n' + JSON.stringify(res.errors, null, 2);
+            }
+        })
+        .catch(err => {
+            document.getElementById('result').textContent = 'Error:\n' + err;
+        });
+    </script>
+</body>
+</html>
+```
+
+This page will display the result of the GraphQL query in a `<div>` with the id "result". If there are any errors, they will be displayed after the data. If there is an error with the fetch request itself, it will be displayed instead of the data.

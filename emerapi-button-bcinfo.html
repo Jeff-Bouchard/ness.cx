@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GraphQL Query Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #result {
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>GraphQL Query Result</h1>
+    <button id="fetchButton">getblockchaininfo</button>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('fetchButton').addEventListener('click', function() {
+            fetch('https://emerapi.info/graphql', {  
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    query: 'query { callwalletfunction (method: "getblockchaininfo") { answer } }',
+                }),
+            })
+            .then(res => res.json())
+            .then(res => {
+                document.getElementById('result').textContent = JSON.stringify(res.data, null, 2);
+                if(res.errors) {
+                    document.getElementById('result').textContent += '\n\nErrors:\n' + JSON.stringify(res.errors, null, 2);
+                }
+            })
+            .catch(err => {
+                document.getElementById('result').textContent = 'Error:\n' + err;
+            });
+        });
+    </script>
+</body>
+</html>
+

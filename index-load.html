@@ -15,9 +15,10 @@
     <h1>Emercoin-cli API</h1>
 
     <div>
+
         <label for="dropdown">Available Commands</label>
-        <select id="dropdown" class="dropdown" onchange="displaySelection()"> 
-            <option value= "command">text</option> 
+            <select id="dropdown" class="dropdown" onchange="displaySelection()"> 
+            <option value="command">text</option> 
             <option value= "getbestblockhash	" >	getbestblockhash </option>
             <option value= "Getblock """ >	getblock "blockhash"</option>
             <option value= "getblockchaininfo	" >	getblockchaininfo </option>
@@ -141,32 +142,40 @@
             <option value= "Setaccount "" """ >	setaccount "address" "account"</option>
             <option value= "settxfee amount	" >	settxfee amount	</option>
             <option value= "Signmessage "" """ >	signmessage "address" "message"</option>
+            
         </select>
+
+        
     </div>
+
+
+
 
     <div id="displayArea"></div>
 
-    <button onclick="fetchGraphQLData()">Fetch GraphQL Data</button>
+    <button onclick="fetchGraphQLData()">Fetch EmerAPI GraphQL Data</button>
 
     <script>
         function displaySelection() {
             var dropdown = document.getElementById("dropdown");
+            
+            
+            displayArea.innerHTML = "You selected: " + dropdown.value
             var displayArea = document.getElementById("displayArea");
 
-            displayArea.innerHTML = "You selected: " + dropdown.value;
         }
 
         function fetchGraphQLData() {
             var xhr = new XMLHttpRequest();
             xhr.responseType = 'json';
-            xhr.open("POST", "https://emerapi.info/app/graphql");
+            xhr.open("POST", "https://emerapi.info/graphql");
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.setRequestHeader("Accept", "application/json");
             xhr.onload = function () {
                 console.log('data returned:', xhr.response);
             }
             xhr.send(JSON.stringify({
-                query: 'query { callwalletfunction (method: "getblockchaininfo") { answer } }'
+                query: `query { callwalletfunction (method: "xhr.response") { answer } }`
             }));
         }
     </script>
