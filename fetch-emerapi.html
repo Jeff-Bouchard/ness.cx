@@ -1,44 +1,87 @@
-Here is a simple single page website that shows off the GraphQL result of your query:
-
-```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Emercoin API">
+    <meta name="keywords" content="PrivateNess Network, Emercoin, Skycoin">
+    <meta name="author" content="JeffBouchard">
+     
+     
     <title>GraphQL Query Result</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #FFFFFF;
+            margin: 0;
+            padding: 20px;
         }
+        
+        h1{
+             color: white;
+             background-color: #367CA5;
+             padding: 0 2%;
+             border-radius: 3px;
+             text-align: center;
+        }
+        
         #result {
+            max-width: 100%;
+            overflow-x: auto;
             white-space: pre-wrap;
+            background-color: #F5F5F5;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 0.4em;
+            
+        }
+        
+        button {
+            background-color: #367CA5;
+            color: white;
+            border: none;
+            border-radius:0.3em;
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        button:active {
+            background-color: #1B4F73;
+            
         }
     </style>
 </head>
 <body>
     <h1>GraphQL Query Result</h1>
-    <div id="result"></div>
+    <div id="result">Click the button to fetch data</div>
+    <button id="fetchButton">Fetch Data</button>
 
-    <script>
-        fetch('https://emerapi.info/graphql', {  
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                query: 'query { callwalletfunction (method: "getblockchaininfo") { answer } }',
-            }),
-        })
-        .then(res => res.json())
-        .then(res => {
-            document.getElementById('result').textContent = JSON.stringify(res.data, null, 2);
-            if(res.errors) {
-                document.getElementById('result').textContent += '\n\nErrors:\n' + JSON.stringify(res.errors, null, 2);
-            }
-        })
-        .catch(err => {
-            document.getElementById('result').textContent = 'Error:\n' + err;
+     <script>
+        document.getElementById('fetchButton').addEventListener('click', function() {
+            // Display "Loading..." message while fetching data
+            document.getElementById('result').textContent = 'Loading...';
+
+            fetch('https://emerapi.info/graphql', {  
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    query: 'query { callwalletfunction (method: "getblockchaininfo") { answer } }',
+                }),
+            })
+            .then(res => res.json())
+            .then(res => {
+                // Replace "Loading..." with fetched data
+                document.getElementById('result').textContent = JSON.stringify(res.data, null, 2);
+                if(res.errors) {
+                    document.getElementById('result').textContent += '\n\nErrors:\n' + JSON.stringify(res.errors, null, 2);
+                }
+            })
+            .catch(err => {
+                // Display error message
+                document.getElementById('result').textContent = 'Error:\n' + err;
+            });
         });
     </script>
 </body>
 </html>
-```
-
-This page will display the result of the GraphQL query in a `<div>` with the id "result". If there are any errors, they will be displayed after the data. If there is an error with the fetch request itself, it will be displayed instead of the data.
