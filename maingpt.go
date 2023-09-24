@@ -1,17 +1,14 @@
-go
 package main
 
 import (
 	"fmt"
-	"net/http"
 	"log"
+	"net/http"
 
-	"github.com/btcsuite/btcd/chaincfg"
 	"github.com/btcsuite/btcd/rpcclient"
-	"github.com/btcsuite/btcutil"
 )
 
-func main() {
+func maingpt() {
 	connCfg := &rpcclient.ConnConfig{
 		Host:         "localhost:6662",
 		User:         "emcrpcuser",
@@ -36,5 +33,5 @@ func main() {
 		fmt.Fprintf(w, "Block count: %d", blockCount)
 	})
 
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(":8880", nil))
 }
