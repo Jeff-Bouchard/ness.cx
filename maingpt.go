@@ -12,7 +12,7 @@ func maingpt() {
 	connCfg := &rpcclient.ConnConfig{
 		Host:         "localhost:6662",
 		User:         "emcrpcuser",
-		Pass:         "qoe0sT3GHvHCMX8YkY6P87w8EV",
+		Pass:         "qoe0sT3GHvHCMX8YkY6P87w8EV", // test wallet no funds
 		HTTPPostMode: true,
 		DisableTLS:   true,
 	}
